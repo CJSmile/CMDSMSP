@@ -1,0 +1,994 @@
+﻿/*
+    SMILEDINING-SA21-0081           16/12/2021      Customize           1. Add loading shimmer web support.
+                                                                        2. Fix bug value when click button duplicate.
+                                                                        3. Menu summary change call api.
+    SMILEDINING-SA21-0081#1         21/12/2021      Customize           1. Edit class name shimmer and Add swal when get data fail. 
+    SMILEDINING-SA22-0017           06/06/2022      Customize           1. Add menu AutoUpdate in webSupport.
+    SMILEDINING-SA22-0022           15/06/2022      Customize           1. Add menu Delivery Billing in webSupport. 
+    SMILEDINING-SA22-0032           18/08/2022      Customize           1. Edit summary report in WebSupport.
+                                                                        2. Edit setting service fee in WebSupport.
+                                                                        3. Add download and print for delivery billing in WebSupport.
+    WEB-SA22-0057#1                 09/11/2022      Customize           1. Fixbug Flat Rate, Percentage and Setting in Websupport
+ *                                                                      2. Edit summary report in WebSupport.
+    WEB-SA22-0070                   15/12/2022      Customize           1. Fix bug AutoUpdate v2 in webSupport.
+    WEB-SA22-0073                   26/12/2022      Customize           1. Add filter product in summary in webSupport.
+    WEB-SA23-0013#4                 23/02/2023      Customize           1. Add address and postal in summary and delivery billing in webSupport.
+    WEB-SA23-0025                   28/03/2023      Customize           1. Add filter product and export excel in menu Setup on webSupport. 
+                                                                        2. Change version api cpxtransaction of setup-dining to v2 on webSupport.
+                                                                        3. Edit version POS in menu Auto Update on webSupport.
+    WEB-SA23-0013#8                 26/06/2023      Customize           1. Add state in summary and delivery billing in webSupport.
+    WEB-SA23-0056                   20/12/2023      Customize           1. Add Service Fee Report on webSupport, webDining, webOnTable.
+    WEB-SA24-0002                   02/02/2024      Customize           1. Add Order Paper Report on webSupport.
+    WEB-SA23-0056#4                 23/04/2024      Customize           1. Add address in Service Fee Report on webSupport.
+    WEB-SA24-0029                   17/10/2024      Customize           1. New Requirement - Personnel on webSupport.
+*/
+
+//$summary-column-auto-width: 1267; //(226px + 336px + 84px + 139px + 155px + 179px + 148px) //Added and End by WEB-SA23-0013#4 //Modified and End by WEB-SA23-0013#8
+//Added by WEB-SA23-0013#8
+$summary-column-shopname-min-w: 264;
+$summary-column-address-min-w: 374;
+$summary-column-state-min-w: 77;
+$summary-column-postal-min-w: 83;
+$summary-column-tx-min-w: 138;
+$summary-column-total-min-w: 154;
+$summary-column-servicefee-min-w: 178;
+$summary-column-amount-min-w: 147.5;
+$summary-column-auto-w: $summary-column-shopname-min-w + $summary-column-address-min-w + $summary-column-state-min-w + $summary-column-postal-min-w + $summary-column-tx-min-w + $summary-column-total-min-w + $summary-column-servicefee-min-w + $summary-column-amount-min-w;
+//End Added by WEB-SA23-0013#8
+//Added by WEB-SA23-0056
+$rp-servicefee-column-shopname-min-w: 200;
+$rp-servicefee-column-address-min-w: 200; //Added and End by WEB-SA23-0056#4
+$rp-servicefee-column-state-min-w: 82;
+$rp-servicefee-column-taxrate-min-w: 124;
+$rp-servicefee-column-servicefeeoncredit-min-w: 270;
+$rp-servicefee-column-taxamount-min-w: 122;
+$rp-servicefee-column-auto-w: $rp-servicefee-column-shopname-min-w + $rp-servicefee-column-address-min-w + $rp-servicefee-column-state-min-w + $rp-servicefee-column-taxrate-min-w + $rp-servicefee-column-servicefeeoncredit-min-w + $rp-servicefee-column-servicefeeoncredit-min-w + $rp-servicefee-column-taxamount-min-w;
+//End Added by WEB-SA23-0056
+
+.shimmer {
+    animation-duration: 2.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: #ddd;
+    background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+    background-size: 1200px 100%;
+
+    &.title {
+        &.line {
+            height: 24px;
+            margin-bottom: 12px;
+        }
+
+        &.drag {
+            width: 322px;
+        }
+
+        &.icon {
+            height: 34px;
+            width: 34px;
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+        &.page-size {
+            height: 32px;
+            width: 32px;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        &.date {
+            height: 34px;
+            width: 168px;
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+        &.number {
+            //width: 80px; //Modified and End by SMILEDINING-SA22-0032
+            min-width: 80px; //Added and End by SMILEDINING-SA22-0032
+            max-width: 80px; //Added and End by WEB-SA23-0013#8
+        }
+
+        &.column {
+            height: 550px;
+        }
+
+        &.paging {
+            float: right;
+            height: 24px;
+            width: 400px;
+        }
+
+        &.e-pay {
+            width: 80px;
+        }
+
+    }
+}
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+
+    100% {
+        background-position: 1200px 0;
+    }
+}
+//Added by SMILEDINING-SA21-0081#1
+.menu-monitor {
+    .shimmer-monitor {
+        .shopname {
+            width: 225px;
+        }
+
+        .id {
+            width: 190px;
+        }
+
+        .customername {
+            width: 230px;
+        }
+
+        .ordertype {
+            width: 198px;
+        }
+
+        .paymenttype {
+            width: 215px;
+        }
+
+        .total {
+            width: 159px;
+        }
+
+        .time {
+            width: 160px;
+        }
+
+        .asap {
+            width: 164px;
+        }
+
+        .send {
+            width: 159px;
+        }
+
+        .confirm {
+            width: 178px;
+        }
+    }
+}
+.menu-setup {
+    .shimmer-setup {
+        .id {
+            width: 330px;
+        }
+
+        .shopname {
+            width: 500px;
+        }
+
+        .database {
+            width: 500px;
+        }
+
+        .domainname {
+            width: 500px;
+        }
+        //Added by WEB-SA23-0025
+        .status {
+            width: 130px;
+        }
+
+        .filterStatus {
+            width: 120px;
+        }
+
+        .filterProduct {
+            width: 250px;
+        }
+        
+        .filterMode {
+            width: 90px;
+            margin: 0 1rem 0 0.5rem;
+        }
+        //End Added by WEB-SA23-0025
+    }
+}
+.menu-webreport {
+    .shimmer-webreport-user {
+        .email {
+            width: 149px;
+        }
+
+        .first-name {
+            width: 788px;
+        }
+
+        .last-name {
+            width: 788px;
+        }
+    }
+
+    .shimmer-webreport-menu {
+        .toolbar {
+            width: 198px;
+            height: 34px;
+        }
+
+        .menu {
+            width: 100%;
+        }
+
+        .role {
+            width: 150px;
+        }
+    }
+
+    .shimmer-webreport-role {
+        .email {
+            width: 429.25px;
+        }
+
+        .first-name {
+            width: 429.25px;
+        }
+
+        .last-name {
+            width: 429.25px;
+        }
+
+        .active {
+            width: 429.25px;
+        }
+
+        @extend .shimmer-webreport-menu
+    }
+}
+.menu-egiftcard {
+    .shimmer-egiftcard {
+        .id {
+            width: 116px;
+        }
+
+        .shopname {
+            width: 1607px;
+        }
+    }
+}
+.menu-log {
+    .shimmer-log {
+        .logid {
+            width: 69.5px;
+        }
+
+        .customerid {
+            width: 127.7px;
+        }
+
+        .email {
+            width: 127.7px;
+        }
+
+        .site {
+            width: 127.7px;
+        }
+
+        .domainid {
+            width: 127.7px;
+        }
+
+
+        .property {
+            width: 299px;
+        }
+
+        .before {
+            width: 299px;
+        }
+
+        .after {
+            width: 299px;
+        }
+
+        .status {
+            width: 127.7px;
+        }
+
+        .menu {
+            width: 127.7px;
+        }
+
+        .create-date {
+            width: 127.7px;
+        }
+    }
+}
+.menu-owner {
+    .shimmer-owner {
+        .id {
+            width: 116px;
+        }
+
+        .shop-id {
+            width: 116px;
+        }
+
+        .shopname {
+            width: 391px;
+        }
+
+        .email {
+            width: 391px;
+        }
+
+        .first-name {
+            width: 391px;
+        }
+
+        .last-name {
+            width: 391px;
+        }
+    }
+}
+.menu-summary {
+    .shimmer-summary {
+        //Modified by WEB-SA23-0013#8
+        //.shopid {
+            //width: 119px; //Modified and End by SMILEDINING-SA22-0032
+        //    min-width: 116px; //Added and End by SMILEDINING-SA22-0032
+        //}
+
+        //.shopname {
+            //width: 356px; //Modified and End by SMILEDINING-SA22-0032
+            //Added by SMILEDINING-SA22-0032
+            //width: 18%; //Modified and End by WEB-SA23-0013#4
+        //    width: percentage(226/$summary-column-auto-width); //Added and End by WEB-SA23-0013#4
+        //    min-width: 226px;
+            //End Added by SMILEDINING-SA22-0032
+
+        //}
+
+        //Added by WEB-SA23-0013#4
+        //.address {
+        //    width: percentage(336/$summary-column-auto-width);
+        //    min-width: 336px;
+        //}
+
+        //.postal{
+        //    width: percentage(84/$summary-column-auto-width);
+        //    min-width: 84px;
+        //}
+        //End Added by WEB-SA23-0013#4
+
+        //.tx-smile-dining {
+            //width: 317px; //Modified and End by SMILEDINING-SA22-0032
+            //Added by SMILEDINING-SA22-0032
+            //width: 13%; //Modified and End by WEB-SA23-0013#4
+        //    width: percentage(139/$summary-column-auto-width); //Added and End by WEB-SA23-0013#4
+        //    min-width: 139px;
+            //End Added by SMILEDINING-SA22-0032
+        //}
+
+        //.total-smile-dining {
+            //width: 333px; //Modified and End by SMILEDINING-SA22-0032
+            //Added by SMILEDINING-SA22-0032
+            //width: 14%; //Modified and End by WEB-SA23-0013#4
+        //    width: percentage(155/$summary-column-auto-width); //Added and End by WEB-SA23-0013#4
+        //    min-width: 155px;
+            //End Added by SMILEDINING-SA22-0032
+        //}
+
+        //.tx-smile-on-table {
+            //width: 331px; //Modified and End by SMILEDINING-SA22-0032 
+            //Added by SMILEDINING-SA22-0032
+        //    width: 13%;
+        //    min-width: 156px;
+            //End Added by SMILEDINING-SA22-0032
+        //}
+
+        //.total-smile-on-table {
+            //width: 346.5px; //Modified and End by SMILEDINING-SA22-0032
+            //Added by SMILEDINING-SA22-0032
+        //    width: 14%;
+        //    min-width: 171.5px;
+            //End Added by SMILEDINING-SA22-0032
+        //}
+
+        //.sum {
+        //    height: 45px;
+        //}
+
+        //Added by SMILEDINING-SA22-0032
+        //.service-fee-on-credit {
+            //width: 15%; //Modified and End by WEB-SA23-0013#4
+        //    width: percentage(179/$summary-column-auto-width); //Added and End by WEB-SA23-0013#4
+        //    min-width: 179px;
+        //}
+        
+        //.amount-deposit {
+            //width: 13%; //Modified and End by WEB-SA23-0013#4
+        //    width: percentage(148/$summary-column-auto-width); //Added and End by WEB-SA23-0013#4
+        //    min-width: 148px;
+        //}
+        //End Modified by WEB-SA23-0013#8
+        //Added by WEB-SA23-0013#8
+        .shopid {
+            min-width: 114px;
+            max-width: 114px;
+        }
+        .shopname {
+            width: percentage($summary-column-shopname-min-w/$summary-column-auto-w);
+            min-width: $summary-column-shopname-min-w + px;
+
+        }
+        .address {
+            width: percentage($summary-column-address-min-w/$summary-column-auto-w);
+            min-width: $summary-column-address-min-w + px;
+        }
+        .state {
+            width: percentage($summary-column-state-min-w/$summary-column-auto-w);
+            min-width: $summary-column-state-min-w + px;
+        }
+        .postal{
+            width: percentage($summary-column-postal-min-w/$summary-column-auto-w);
+            min-width: $summary-column-postal-min-w + px;
+        }
+        .tx-smile-dining {
+            width: percentage($summary-column-tx-min-w/$summary-column-auto-w);
+            min-width: $summary-column-tx-min-w + px;
+        }
+        .total-smile-dining {
+            width: percentage($summary-column-total-min-w/$summary-column-auto-w);
+            min-width: $summary-column-total-min-w + px;
+        }
+        .service-fee-on-credit {
+            width: percentage($summary-column-servicefee-min-w/$summary-column-auto-w);
+            min-width: $summary-column-servicefee-min-w + px;
+        }        
+        .amount-deposit {
+            width: percentage($summary-column-amount-min-w/$summary-column-auto-w);
+            min-width: $summary-column-amount-min-w + px;
+        }
+        .sum {
+            height: 45px;
+        }
+        //End Added by WEB-SA23-0013#8
+        //Added by WEB-SA22-0073
+        .filterProduct {
+            width: 170px;
+        }
+        //End Added by WEB-SA22-0073
+        .filter {
+            //width: 220px; //Modified and End by WEB-SA22-0073
+            width: 190px; //Added and End by WEB-SA22-0073
+        }
+        //End Added by SMILEDINING-SA22-0032
+        //Added by WEB-SA22-0057#1
+        .service-fee-on-credit-smile-on-table {
+            width: 15%;
+            min-width: 182px;
+        }
+        
+        .amount-deposit-smile-on-table {
+            width: 13%;
+            min-width: 149px;
+        }
+        //End Adde by WEB-SA22-0057#1
+
+    }
+}
+.menu-marketing {
+    .shimmer-marketing {
+        .shopid {
+            width: 119px;
+        }
+
+        .shopname {
+            width: 349px;
+        }
+
+        .count {
+            width: 247px;
+        }
+
+        .total-credit {
+            width: 266px;
+        }
+
+        .marketing-service-fee {
+            width: 305px;
+        }
+
+        .total-cc {
+            width: 246px;
+        }
+
+        .amount-deposit {
+            width: 269.5px;
+        }
+    }
+}
+//Added by SMILEDINING-SA22-0017
+.menu-autoupdate {
+    .shimmer-autoupdate {
+        .btnClear {
+            width: 95px;
+        }
+        //Added by WEB-SA22-0070
+        .filter {
+            width: 120px;
+        }
+        //End Added by WEB-SA22-0070
+        .btnUpdateVersion {
+            width: 131px;
+        }
+        .checkBox {
+            width: 72px;
+        }
+        .id {
+            width: 122px;
+        }
+        .shopName {
+            width: 1220px;
+        }
+        .version {
+            width: 152px;
+        }
+        .status {
+            width: 304px;
+        }
+    }
+}
+//End Added by SMILEDINING-SA22-0017
+//Added by SMILEDINING-SA22-0022
+.menu-deliverybilling {
+    .shimmer-deliverybilling {
+        .btnClear {
+            width: 96px;
+        }
+        //Added by WEB-SA23-0013#4
+        .filterDeliveryBy {
+            width: 190px;
+        }
+        .btnDownload {
+            width: 128px;
+        }
+        //End Added by WEB-SA23-0013#4
+        .btnSendEmail {
+            width: 146px;
+        }
+        //Added by WEB-SA23-0013#8
+        .checkBox {
+            min-width: 70px;
+        }
+        .id {
+            min-width: 117px;
+        }
+        .shopName {
+            width: calc(100vw - 1266px);
+            min-width: 267px;
+        }
+        .address {
+            min-width: 497px;
+        }
+        .state {
+            min-width: 87px;
+        }
+        .postal {
+            min-width: 117px;
+        }
+        .deliveryBy {
+            min-width: 297px;
+        }
+        .sendEmail {
+            min-width: 79px;
+        }
+        //End Added by WEB-SA23-0013#8
+        //Modified by WEB-SA23-0013#8
+        //.checkBox {
+        //    width: 70px;
+        //}
+        //.id {
+        //    width: 117px;
+        //}
+        //.shopName {
+        //    width: 694px;
+        //}
+        //Added by WEB-SA23-0013#4
+        //.address {
+        //    width: 497px;
+        //}
+        //.postal {
+        //    width: 117px;
+        //}
+        //End Added by WEB-SA23-0013#4
+        //.deliveryBy {
+        //    width: 297px;
+        //}
+        //.sendEmail {
+        //    width: 79px;
+        //}
+        //End Modified by WEB-SA23-0013#8
+    }
+}
+//End Added by SMILEDINING-SA22-0022
+//End Added by SMILEDINING-SA21-0081#1
+
+//Added by WEB-SA23-0056
+.menu-report {
+    .shimmer-rp-servicefee {
+        .shopid {
+            min-width: 114px;
+            max-width: 114px;
+        }
+        .shopname {
+            width: percentage($rp-servicefee-column-shopname-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-shopname-min-w + px;
+
+        }
+        //Added by WEB-SA23-0056#4
+        .address {
+            width: percentage($rp-servicefee-column-address-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-address-min-w + px;
+        }
+        //End Added by WEB-SA23-0056#4
+        .state {
+            width: percentage($rp-servicefee-column-state-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-state-min-w + px;
+        }
+        .taxrate {
+            width: percentage($rp-servicefee-column-taxrate-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-taxrate-min-w + px;
+        }
+        .servicefeeoncredit {
+            width: percentage($rp-servicefee-column-servicefeeoncredit-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-servicefeeoncredit-min-w + px;
+        }
+        .taxamount {
+            width: percentage($rp-servicefee-column-taxamount-min-w/$rp-servicefee-column-auto-w);
+            min-width: $rp-servicefee-column-taxamount-min-w + px;
+        }
+        .sum {
+            height: 45px;
+        }
+    }
+    //Added by WEB-SA24-0002
+    .shimmer-rp-orderpaper {
+        .selectReport {
+            width: 170px;
+        }
+        .date {
+            width: 170px;
+        }
+        .setting {
+            width: 108px;
+        }
+        .shopid {
+            min-width: 114px;
+            max-width: 114px;
+        }
+        .shopname {
+            width: percentage(119/565);
+            min-width: 119px;
+        }
+        .address {
+            width: percentage(100/565);
+            min-width: 100px;
+        }
+        .state {
+            width: percentage(82/565);
+            min-width: 82px;
+        }
+        .postal {
+            width: percentage(88/565);
+            min-width: 88px;
+        }
+        .papertype {
+            width: percentage(88/565);
+            min-width: 88px;
+        }
+        .order {
+            width: percentage(88/565);
+            min-width: 88px;
+        }
+    }
+    //End Added by WEB-SA24-0002
+}
+//End Added by WEB-SA23-0056
+
+//Added by WEB-SA24-0029
+.menu-personnel {
+    .shimmer-personnel {
+        .btnGroupRole {
+            width: 133px;
+        }
+        .btnCreateAccount {
+            width: 156px;
+        }
+        .checkBox {
+            min-width: 70px;
+        }
+        .firstName {
+            width: percentage(1/5);
+        }
+        .lastName {
+            width: percentage(1/5);
+        }
+        .email {
+            width: percentage(1/5);
+        }
+        .role {
+            width: percentage(1/5);
+        }
+        .createDate {
+            width: percentage(1/5);
+        }
+    }
+}
+//End Added by WEB-SA24-0029
+
+//Modified by SMILEDINING-SA21-0081#1
+/*monitor {
+    .shopname {
+        width: 225px;
+    }
+
+    .id {
+        width: 190px;
+    }
+
+    .customername {
+        width: 230px;
+    }
+
+    .ordertype {
+        width: 198px;
+    }
+
+    .paymenttype {
+        width: 215px;
+    }
+
+    .total {
+        width: 159px;
+    }
+
+    .time {
+        width: 160px;
+    }
+
+    .asap {
+        width: 164px;
+    }
+
+    .send {
+        width: 159px;
+    }
+
+    .confirm {
+        width: 178px;
+    }
+}
+
+.setup {
+    .id {
+        width: 330px;
+    }
+
+    .shopname {
+        width: 500px;
+    }
+
+    .database {
+        width: 500px;
+    }
+
+    .domainname {
+        width: 500px;
+    }
+}
+.owner {
+
+    .id {
+        width: 116px;
+    }
+
+    .shop-id {
+        width: 116px;
+    }
+
+    .shopname {
+        width: 391px;
+    }
+
+    .email {
+        width: 391px;
+    }
+
+    .first-name {
+        width: 391px;
+    }
+
+    .last-name {
+        width: 391px;
+    }
+}
+.webreport {
+    .user {
+        .email {
+            width: 149px;
+        }
+
+        .first-name {
+            width: 788px;
+        }
+
+        .last-name {
+            width: 788px;
+        }
+    }
+
+    .menu-map {
+        .toolbar {
+            width: 198px;
+            height: 34px;
+        }
+
+        .menu {
+            width: 100%;
+        }
+
+        .role {
+            width: 150px;
+        }
+    }
+
+    .role-map {
+        .email {
+            width: 429.25px;
+        }
+
+        .first-name {
+            width: 429.25px;
+        }
+
+        .last-name {
+            width: 429.25px;
+        }
+
+        .active {
+            width: 429.25px;
+        }
+
+        @extend .menu-map
+    }
+}
+.egift-card {
+    .id {
+        width: 116px;
+    }
+    .shopname {
+        width: 1607px;
+    }
+}
+
+.log {
+    .logid {
+        width: 69.5px;
+    }
+
+    .customerid {
+        width: 127.7px;
+    }
+
+    .email {
+        width: 127.7px;
+    }
+
+    .site {
+        width: 127.7px;
+    }
+
+    .domainid {
+        width: 127.7px;
+    }
+
+
+    .property {
+        width: 299px;
+    }
+
+    .before {
+        width: 299px;
+    }
+
+    .after {
+        width: 299px;
+    }
+
+    .status {
+        width: 127.7px;
+    }
+
+    .menu {
+        width: 127.7px;
+    }
+
+    .create-date {
+        width: 127.7px;
+    }
+}
+.summary {
+    .shopid {
+        width: 119px;
+    }
+
+    .shopname {
+        width: 356px;
+    }
+
+    .tx-smile-dining {
+        width: 317px;
+    }
+
+    .total-smile-dining {
+        width: 333px;
+    }
+
+    .tx-smile-on-table {
+        width: 331px;
+    }
+
+    .total-smile-on-table {
+        width: 346.5px;
+    }
+
+    .sum {
+        height: 45px;   
+    }
+}
+.marketing {
+    .shopid {
+        width: 119px;
+    }
+
+    .shopname {
+        width: 349px;
+    }
+
+    .count {
+        width: 247px;
+    }
+
+    .total-credit {
+        width: 266px;
+    }
+
+    .marketing-service-fee {
+        width: 305px;
+    }
+
+    .total-cc {
+        width: 246px;
+    }
+
+    .amount-deposit {
+        width: 269.5px;
+    }
+}*/
+//End Modified by SMILEDINING-SA21-0081#1

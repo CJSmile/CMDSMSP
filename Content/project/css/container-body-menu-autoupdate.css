@@ -1,0 +1,68 @@
+﻿/*
+    SMILEDINING-SA22-0017           06/06/2022      Customize           1. Add menu AutoUpdate in webSupport.
+*/
+@keyframes loader {
+  0% {
+    width: 0; }
+  20% {
+    width: 10%; }
+  25% {
+    width: 24%; }
+  43% {
+    width: 41%; }
+  56% {
+    width: 50%; }
+  66% {
+    width: 52%; }
+  71% {
+    width: 60%; }
+  75% {
+    width: 76%; }
+  94% {
+    width: 86%; }
+  100% {
+    width: 100%; } }
+
+.progress-bar {
+  border-radius: 60px;
+  overflow: hidden;
+  width: 100px;
+  background-color: #dadcdd;
+  height: 10px;
+  display: inline-block;
+  margin-top: 11px;
+  width: 100px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0); }
+  .progress-bar span {
+    display: block; }
+
+.bar {
+  background: rgba(0, 0, 0, 0.075); }
+
+.progress {
+  animation: loader 8s ease infinite;
+  background-color: #75b800;
+  padding: 5px;
+  width: 0; }
+
+.progress-bar-rollback {
+  border-radius: 60px;
+  overflow: hidden;
+  width: 100px;
+  background-color: #75b800;
+  height: 10px;
+  display: inline-block;
+  margin-top: 11px;
+  width: 100px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+  direction: rtl; }
+  .progress-bar-rollback span {
+    display: block; }
+
+.progress-rollback {
+  animation: loader 8s ease infinite;
+  background-color: #dadcdd;
+  padding: 5px;
+  width: 0; }

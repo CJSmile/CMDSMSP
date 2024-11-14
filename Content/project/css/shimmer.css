@@ -1,0 +1,695 @@
+﻿/*
+    SMILEDINING-SA21-0081           16/12/2021      Customize           1. Add loading shimmer web support.
+                                                                        2. Fix bug value when click button duplicate.
+                                                                        3. Menu summary change call api.
+    SMILEDINING-SA21-0081#1         21/12/2021      Customize           1. Edit class name shimmer and Add swal when get data fail. 
+    SMILEDINING-SA22-0017           06/06/2022      Customize           1. Add menu AutoUpdate in webSupport.
+    SMILEDINING-SA22-0022           15/06/2022      Customize           1. Add menu Delivery Billing in webSupport. 
+    SMILEDINING-SA22-0032           18/08/2022      Customize           1. Edit summary report in WebSupport.
+                                                                        2. Edit setting service fee in WebSupport.
+                                                                        3. Add download and print for delivery billing in WebSupport.
+    WEB-SA22-0057#1                 09/11/2022      Customize           1. Fixbug Flat Rate, Percentage and Setting in Websupport
+ *                                                                      2. Edit summary report in WebSupport.
+    WEB-SA22-0070                   15/12/2022      Customize           1. Fix bug AutoUpdate v2 in webSupport.
+    WEB-SA22-0073                   26/12/2022      Customize           1. Add filter product in summary in webSupport.
+    WEB-SA23-0013#4                 23/02/2023      Customize           1. Add address and postal in summary and delivery billing in webSupport.
+    WEB-SA23-0025                   28/03/2023      Customize           1. Add filter product and export excel in menu Setup on webSupport. 
+                                                                        2. Change version api cpxtransaction of setup-dining to v2 on webSupport.
+                                                                        3. Edit version POS in menu Auto Update on webSupport.
+    WEB-SA23-0013#8                 26/06/2023      Customize           1. Add state in summary and delivery billing in webSupport.
+    WEB-SA23-0056                   20/12/2023      Customize           1. Add Service Fee Report on webSupport, webDining, webOnTable.
+    WEB-SA24-0002                   02/02/2024      Customize           1. Add Order Paper Report on webSupport.
+    WEB-SA23-0056#4                 23/04/2024      Customize           1. Add address in Service Fee Report on webSupport.
+    WEB-SA24-0029                   17/10/2024      Customize           1. New Requirement - Personnel on webSupport.
+*/
+.shimmer {
+  animation-duration: 2.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: #ddd;
+  background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+  background-size: 1200px 100%; }
+  .shimmer.title.line {
+    height: 24px;
+    margin-bottom: 12px; }
+  .shimmer.title.drag {
+    width: 322px; }
+  .shimmer.title.icon {
+    height: 34px;
+    width: 34px;
+    margin-left: 5px;
+    margin-bottom: 5px; }
+  .shimmer.title.page-size {
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+    margin-top: 5px; }
+  .shimmer.title.date {
+    height: 34px;
+    width: 168px;
+    margin-left: 5px;
+    margin-bottom: 5px; }
+  .shimmer.title.number {
+    min-width: 80px;
+    max-width: 80px; }
+  .shimmer.title.column {
+    height: 550px; }
+  .shimmer.title.paging {
+    float: right;
+    height: 24px;
+    width: 400px; }
+  .shimmer.title.e-pay {
+    width: 80px; }
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0; }
+  100% {
+    background-position: 100% 0; } }
+
+@keyframes shimmer {
+  0% {
+    background-position: -1200px 0; }
+  100% {
+    background-position: 1200px 0; } }
+
+.menu-monitor .shimmer-monitor .shopname {
+  width: 225px; }
+
+.menu-monitor .shimmer-monitor .id {
+  width: 190px; }
+
+.menu-monitor .shimmer-monitor .customername {
+  width: 230px; }
+
+.menu-monitor .shimmer-monitor .ordertype {
+  width: 198px; }
+
+.menu-monitor .shimmer-monitor .paymenttype {
+  width: 215px; }
+
+.menu-monitor .shimmer-monitor .total {
+  width: 159px; }
+
+.menu-monitor .shimmer-monitor .time {
+  width: 160px; }
+
+.menu-monitor .shimmer-monitor .asap {
+  width: 164px; }
+
+.menu-monitor .shimmer-monitor .send {
+  width: 159px; }
+
+.menu-monitor .shimmer-monitor .confirm {
+  width: 178px; }
+
+.menu-setup .shimmer-setup .id {
+  width: 330px; }
+
+.menu-setup .shimmer-setup .shopname {
+  width: 500px; }
+
+.menu-setup .shimmer-setup .database {
+  width: 500px; }
+
+.menu-setup .shimmer-setup .domainname {
+  width: 500px; }
+
+.menu-setup .shimmer-setup .status {
+  width: 130px; }
+
+.menu-setup .shimmer-setup .filterStatus {
+  width: 120px; }
+
+.menu-setup .shimmer-setup .filterProduct {
+  width: 250px; }
+
+.menu-setup .shimmer-setup .filterMode {
+  width: 90px;
+  margin: 0 1rem 0 0.5rem; }
+
+.menu-webreport .shimmer-webreport-user .email {
+  width: 149px; }
+
+.menu-webreport .shimmer-webreport-user .first-name {
+  width: 788px; }
+
+.menu-webreport .shimmer-webreport-user .last-name {
+  width: 788px; }
+
+.menu-webreport .shimmer-webreport-menu .toolbar, .menu-webreport .shimmer-webreport-role .toolbar {
+  width: 198px;
+  height: 34px; }
+
+.menu-webreport .shimmer-webreport-menu .menu, .menu-webreport .shimmer-webreport-role .menu {
+  width: 100%; }
+
+.menu-webreport .shimmer-webreport-menu .role, .menu-webreport .shimmer-webreport-role .role {
+  width: 150px; }
+
+.menu-webreport .shimmer-webreport-role .email {
+  width: 429.25px; }
+
+.menu-webreport .shimmer-webreport-role .first-name {
+  width: 429.25px; }
+
+.menu-webreport .shimmer-webreport-role .last-name {
+  width: 429.25px; }
+
+.menu-webreport .shimmer-webreport-role .active {
+  width: 429.25px; }
+
+.menu-egiftcard .shimmer-egiftcard .id {
+  width: 116px; }
+
+.menu-egiftcard .shimmer-egiftcard .shopname {
+  width: 1607px; }
+
+.menu-log .shimmer-log .logid {
+  width: 69.5px; }
+
+.menu-log .shimmer-log .customerid {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .email {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .site {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .domainid {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .property {
+  width: 299px; }
+
+.menu-log .shimmer-log .before {
+  width: 299px; }
+
+.menu-log .shimmer-log .after {
+  width: 299px; }
+
+.menu-log .shimmer-log .status {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .menu {
+  width: 127.7px; }
+
+.menu-log .shimmer-log .create-date {
+  width: 127.7px; }
+
+.menu-owner .shimmer-owner .id {
+  width: 116px; }
+
+.menu-owner .shimmer-owner .shop-id {
+  width: 116px; }
+
+.menu-owner .shimmer-owner .shopname {
+  width: 391px; }
+
+.menu-owner .shimmer-owner .email {
+  width: 391px; }
+
+.menu-owner .shimmer-owner .first-name {
+  width: 391px; }
+
+.menu-owner .shimmer-owner .last-name {
+  width: 391px; }
+
+.menu-summary .shimmer-summary .shopid {
+  min-width: 114px;
+  max-width: 114px; }
+
+.menu-summary .shimmer-summary .shopname {
+  width: 18.65065%;
+  min-width: 264px; }
+
+.menu-summary .shimmer-summary .address {
+  width: 26.42176%;
+  min-width: 374px; }
+
+.menu-summary .shimmer-summary .state {
+  width: 5.43977%;
+  min-width: 77px; }
+
+.menu-summary .shimmer-summary .postal {
+  width: 5.86365%;
+  min-width: 83px; }
+
+.menu-summary .shimmer-summary .tx-smile-dining {
+  width: 9.74921%;
+  min-width: 138px; }
+
+.menu-summary .shimmer-summary .total-smile-dining {
+  width: 10.87955%;
+  min-width: 154px; }
+
+.menu-summary .shimmer-summary .service-fee-on-credit {
+  width: 12.57506%;
+  min-width: 178px; }
+
+.menu-summary .shimmer-summary .amount-deposit {
+  width: 10.42035%;
+  min-width: 147.5px; }
+
+.menu-summary .shimmer-summary .sum {
+  height: 45px; }
+
+.menu-summary .shimmer-summary .filterProduct {
+  width: 170px; }
+
+.menu-summary .shimmer-summary .filter {
+  width: 190px; }
+
+.menu-summary .shimmer-summary .service-fee-on-credit-smile-on-table {
+  width: 15%;
+  min-width: 182px; }
+
+.menu-summary .shimmer-summary .amount-deposit-smile-on-table {
+  width: 13%;
+  min-width: 149px; }
+
+.menu-marketing .shimmer-marketing .shopid {
+  width: 119px; }
+
+.menu-marketing .shimmer-marketing .shopname {
+  width: 349px; }
+
+.menu-marketing .shimmer-marketing .count {
+  width: 247px; }
+
+.menu-marketing .shimmer-marketing .total-credit {
+  width: 266px; }
+
+.menu-marketing .shimmer-marketing .marketing-service-fee {
+  width: 305px; }
+
+.menu-marketing .shimmer-marketing .total-cc {
+  width: 246px; }
+
+.menu-marketing .shimmer-marketing .amount-deposit {
+  width: 269.5px; }
+
+.menu-autoupdate .shimmer-autoupdate .btnClear {
+  width: 95px; }
+
+.menu-autoupdate .shimmer-autoupdate .filter {
+  width: 120px; }
+
+.menu-autoupdate .shimmer-autoupdate .btnUpdateVersion {
+  width: 131px; }
+
+.menu-autoupdate .shimmer-autoupdate .checkBox {
+  width: 72px; }
+
+.menu-autoupdate .shimmer-autoupdate .id {
+  width: 122px; }
+
+.menu-autoupdate .shimmer-autoupdate .shopName {
+  width: 1220px; }
+
+.menu-autoupdate .shimmer-autoupdate .version {
+  width: 152px; }
+
+.menu-autoupdate .shimmer-autoupdate .status {
+  width: 304px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .btnClear {
+  width: 96px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .filterDeliveryBy {
+  width: 190px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .btnDownload {
+  width: 128px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .btnSendEmail {
+  width: 146px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .checkBox {
+  min-width: 70px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .id {
+  min-width: 117px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .shopName {
+  width: calc(100vw - 1266px);
+  min-width: 267px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .address {
+  min-width: 497px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .state {
+  min-width: 87px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .postal {
+  min-width: 117px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .deliveryBy {
+  min-width: 297px; }
+
+.menu-deliverybilling .shimmer-deliverybilling .sendEmail {
+  min-width: 79px; }
+
+.menu-report .shimmer-rp-servicefee .shopid {
+  min-width: 114px;
+  max-width: 114px; }
+
+.menu-report .shimmer-rp-servicefee .shopname {
+  width: 15.77287%;
+  min-width: 200px; }
+
+.menu-report .shimmer-rp-servicefee .address {
+  width: 15.77287%;
+  min-width: 200px; }
+
+.menu-report .shimmer-rp-servicefee .state {
+  width: 6.46688%;
+  min-width: 82px; }
+
+.menu-report .shimmer-rp-servicefee .taxrate {
+  width: 9.77918%;
+  min-width: 124px; }
+
+.menu-report .shimmer-rp-servicefee .servicefeeoncredit {
+  width: 21.29338%;
+  min-width: 270px; }
+
+.menu-report .shimmer-rp-servicefee .taxamount {
+  width: 9.62145%;
+  min-width: 122px; }
+
+.menu-report .shimmer-rp-servicefee .sum {
+  height: 45px; }
+
+.menu-report .shimmer-rp-orderpaper .selectReport {
+  width: 170px; }
+
+.menu-report .shimmer-rp-orderpaper .date {
+  width: 170px; }
+
+.menu-report .shimmer-rp-orderpaper .setting {
+  width: 108px; }
+
+.menu-report .shimmer-rp-orderpaper .shopid {
+  min-width: 114px;
+  max-width: 114px; }
+
+.menu-report .shimmer-rp-orderpaper .shopname {
+  width: 21.06195%;
+  min-width: 119px; }
+
+.menu-report .shimmer-rp-orderpaper .address {
+  width: 17.69912%;
+  min-width: 100px; }
+
+.menu-report .shimmer-rp-orderpaper .state {
+  width: 14.51327%;
+  min-width: 82px; }
+
+.menu-report .shimmer-rp-orderpaper .postal {
+  width: 15.57522%;
+  min-width: 88px; }
+
+.menu-report .shimmer-rp-orderpaper .papertype {
+  width: 15.57522%;
+  min-width: 88px; }
+
+.menu-report .shimmer-rp-orderpaper .order {
+  width: 15.57522%;
+  min-width: 88px; }
+
+.menu-personnel .shimmer-personnel .btnGroupRole {
+  width: 133px; }
+
+.menu-personnel .shimmer-personnel .btnCreateAccount {
+  width: 156px; }
+
+.menu-personnel .shimmer-personnel .checkBox {
+  min-width: 70px; }
+
+.menu-personnel .shimmer-personnel .firstName {
+  width: 20%; }
+
+.menu-personnel .shimmer-personnel .lastName {
+  width: 20%; }
+
+.menu-personnel .shimmer-personnel .email {
+  width: 20%; }
+
+.menu-personnel .shimmer-personnel .role {
+  width: 20%; }
+
+.menu-personnel .shimmer-personnel .createDate {
+  width: 20%; }
+
+/*monitor {
+    .shopname {
+        width: 225px;
+    }
+
+    .id {
+        width: 190px;
+    }
+
+    .customername {
+        width: 230px;
+    }
+
+    .ordertype {
+        width: 198px;
+    }
+
+    .paymenttype {
+        width: 215px;
+    }
+
+    .total {
+        width: 159px;
+    }
+
+    .time {
+        width: 160px;
+    }
+
+    .asap {
+        width: 164px;
+    }
+
+    .send {
+        width: 159px;
+    }
+
+    .confirm {
+        width: 178px;
+    }
+}
+
+.setup {
+    .id {
+        width: 330px;
+    }
+
+    .shopname {
+        width: 500px;
+    }
+
+    .database {
+        width: 500px;
+    }
+
+    .domainname {
+        width: 500px;
+    }
+}
+.owner {
+
+    .id {
+        width: 116px;
+    }
+
+    .shop-id {
+        width: 116px;
+    }
+
+    .shopname {
+        width: 391px;
+    }
+
+    .email {
+        width: 391px;
+    }
+
+    .first-name {
+        width: 391px;
+    }
+
+    .last-name {
+        width: 391px;
+    }
+}
+.webreport {
+    .user {
+        .email {
+            width: 149px;
+        }
+
+        .first-name {
+            width: 788px;
+        }
+
+        .last-name {
+            width: 788px;
+        }
+    }
+
+    .menu-map {
+        .toolbar {
+            width: 198px;
+            height: 34px;
+        }
+
+        .menu {
+            width: 100%;
+        }
+
+        .role {
+            width: 150px;
+        }
+    }
+
+    .role-map {
+        .email {
+            width: 429.25px;
+        }
+
+        .first-name {
+            width: 429.25px;
+        }
+
+        .last-name {
+            width: 429.25px;
+        }
+
+        .active {
+            width: 429.25px;
+        }
+
+        @extend .menu-map
+    }
+}
+.egift-card {
+    .id {
+        width: 116px;
+    }
+    .shopname {
+        width: 1607px;
+    }
+}
+
+.log {
+    .logid {
+        width: 69.5px;
+    }
+
+    .customerid {
+        width: 127.7px;
+    }
+
+    .email {
+        width: 127.7px;
+    }
+
+    .site {
+        width: 127.7px;
+    }
+
+    .domainid {
+        width: 127.7px;
+    }
+
+
+    .property {
+        width: 299px;
+    }
+
+    .before {
+        width: 299px;
+    }
+
+    .after {
+        width: 299px;
+    }
+
+    .status {
+        width: 127.7px;
+    }
+
+    .menu {
+        width: 127.7px;
+    }
+
+    .create-date {
+        width: 127.7px;
+    }
+}
+.summary {
+    .shopid {
+        width: 119px;
+    }
+
+    .shopname {
+        width: 356px;
+    }
+
+    .tx-smile-dining {
+        width: 317px;
+    }
+
+    .total-smile-dining {
+        width: 333px;
+    }
+
+    .tx-smile-on-table {
+        width: 331px;
+    }
+
+    .total-smile-on-table {
+        width: 346.5px;
+    }
+
+    .sum {
+        height: 45px;   
+    }
+}
+.marketing {
+    .shopid {
+        width: 119px;
+    }
+
+    .shopname {
+        width: 349px;
+    }
+
+    .count {
+        width: 247px;
+    }
+
+    .total-credit {
+        width: 266px;
+    }
+
+    .marketing-service-fee {
+        width: 305px;
+    }
+
+    .total-cc {
+        width: 246px;
+    }
+
+    .amount-deposit {
+        width: 269.5px;
+    }
+}*/

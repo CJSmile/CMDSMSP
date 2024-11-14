@@ -1,0 +1,22 @@
+﻿/*
+    SMILEDINING-SA18-0011      05/07/2018      Customize         1. New Web Report.
+*/
+.menuRoleMap {
+  color: blue;
+  text-align: center;
+  font-weight: bold; }
+
+.rowTwoColumn {
+  content: "";
+  display: table;
+  clear: both; }
+  .rowTwoColumn .twoColumn {
+    float: left;
+    width: 50%; }
+
+.menu {
+  font-size: 0.75rem; }
+
+.card-block {
+  padding: 0.7rem; }
+

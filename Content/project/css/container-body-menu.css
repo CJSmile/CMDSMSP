@@ -1,0 +1,97 @@
+﻿/*
+    SMILEDINING-SA18-0016      07/16/2018      Customize  1. Migrate Bootstrap to version 4.1
+    SMILEDINING-SA21-0063      07/10/2021      Customize  1. Add menu Marketing on web owner and Add menu Log on web support.
+    SMILEDINING-SA21-0081#1    21/12/2021      Customize  1. Edit class name shimmer and Add swal when get data fail. 
+    SMILEDINING-SA22-0017      06/06/2022      Customize  1. Add menu AutoUpdate in webSupport.
+    SMILEDINING-SA22-0022      15/06/2022      Customize  1. Add menu Delivery Billing in webSupport. 
+    WEB-SA23-0056              20/12/2023      Customize  1. Add Service Fee Report on webSupport, webDining, webOnTable.
+    WEB-SA24-0029              17/10/2024      Customize  1. New Requirement - Personnel on webSupport.
+*/
+.group-shortcut {
+  position: relative; }
+
+.nav-mobile tr td span a {
+  display: block;
+  text-decoration: none;
+  color: #FFF; }
+
+/*.menu-monitor, .menu-setup, .menu-owner{
+     margin-top: 60px;
+}*/
+/*.menu-monitor, .menu-setup, .menu-owner, .menu-log {*/
+.menu-monitor,
+.menu-setup,
+.menu-owner,
+.menu-log,
+.menu-summary,
+.menu-marketing,
+.menu-autoupdate,
+.menu-deliverybilling,
+.menu-report,
+.menu-personnel {
+  margin-top: 60px; }
+
+/*
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .menu-monitor, .menu-setup, .menu-owner{
+         margin-top: 50px;
+    }
+}
+*/
+/*Mobile*/
+.menu-mobile .fa {
+  width: 25px; }
+
+.menu-mobile thead th {
+  font-size: 1.5rem; }
+
+.menu-mobile tr {
+  cursor: pointer; }
+  .menu-mobile tr td {
+    font-size: 1.25rem;
+    padding-left: 25px; }
+  .menu-mobile tr td i {
+    text-align: center;
+    padding-right: 5px; }
+
+.menu-mobile .logo-mobile.absolute {
+  position: absolute;
+  left: 50%; }
+
+.menu-mobile .logo-mobile .relative {
+  position: relative;
+  left: -50%;
+  top: -30px; }
+
+.menu-mobile .logo-mobile img {
+  margin-top: -25px;
+  height: 70px; }
+
+.menu-mobile .navbar-collapse {
+  position: absolute;
+  right: 15px;
+  top: 8px; }
+
+@media (max-width: 575px) {
+  .menu-monitor,
+  .menu-setup,
+  .menu-owner,
+  .menu-summary,
+  .menu-marketing,
+  .menu-autoupdate,
+  .menu-deliverybilling,
+  .menu-report,
+  .menu-personnel {
+    margin-top: 20px; } }
+
+@media all and (max-width: 575px) and (-ms-high-contrast: none), (max-width: 575px) and (-ms-high-contrast: active) {
+  .menu-monitor,
+  .menu-setup,
+  .menu-owner,
+  .menu-summary,
+  .menu-marketing,
+  .menu-autoupdate,
+  .menu-deliverybilling,
+  .menu-report,
+  .menu-personnel {
+    margin-top: 20px; } }

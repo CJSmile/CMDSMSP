@@ -1,0 +1,41 @@
+﻿/*
+    SMILEDINING-SA18-0010      03/22/2018      Customize               1. Summary
+*/
+.dx-popup-title {
+  color: #fff;
+  background-color: #FF9800;
+  text-align: center; }
+
+.dx-popup-content {
+  padding: 0; }
+
+.dx-command-adaptive {
+  background: #fff; }
+  .dx-command-adaptive.dx-cell-focus-disabled {
+    background: #FF9800; }
+
+.dx-datagrid-filter-row,
+.dx-datagrid-filter-row .dx-editor-cell .dx-texteditor-input {
+  background-color: #fff !important; }
+
+.dx-state-hover {
+  cursor: pointer; }
+
+.dx-datagrid-rowsview .left {
+  text-align: left !important; }
+
+.dx-datagrid-rowsview .center {
+  text-align: center !important; }
+
+.dx-datagrid-rowsview .right {
+  text-align: right !important; }
+
+.datagrid-summary-state-hover :hover {
+  cursor: auto; }
+
+.dx-datagrid-summary-item.dx-datagrid-text-content {
+  color: black;
+  font-weight: bold; }
+
+.dx-item .dx-box-item {
+  padding: 10px; }

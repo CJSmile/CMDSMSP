@@ -1,0 +1,55 @@
+﻿
+@import "mixin/_variables.scss";
+@import "mixin/_breakpoints.scss";
+
+.error{
+    .e_503, .e_fb{
+        font-size: 100px;
+        position: relative;
+        display: inline-block;
+        height: 250px;
+        letter-spacing: 15px;
+    }
+    .e_404,.e_500{
+        font-size: 220px;
+        position: relative;
+        display: inline-block;
+        height: 250px;
+        letter-spacing: 15px;
+    }
+    .e_detail1{
+        text-align:center;
+        display:block;
+        position:relative;
+        letter-spacing: 12px;
+        font-size: 4em;
+        line-height: 80%;
+        margin-top: 20px;
+    }
+    .e_detail2{
+        text-align:center;
+        display:block;
+        position: relative;
+        font-size: 30px;
+        margin-top: 15px;
+    }
+    .e_detail3{
+        text-align:center;
+        display:block;
+        position: relative;
+        font-size: 20px;
+        margin-top: 15px;
+    }
+}
+
+@include media-breakpoint-down(xs){
+    .error{
+        .e_404,.e_500{
+            font-size: 150px;
+            position: relative;
+            display: inline-block;
+            height: 200px;
+            letter-spacing: 15px;
+        }
+    }
+}
